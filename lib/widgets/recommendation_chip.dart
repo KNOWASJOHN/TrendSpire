@@ -22,30 +22,66 @@ class RecommendationChip extends StatelessWidget {
     return '$recommendation $sign$adjustmentPct%';
   }
 
+  IconData get _icon {
+    switch (recommendation) {
+      case 'Increase':
+        return Icons.arrow_upward_rounded;
+      case 'Maintain':
+        return Icons.remove_rounded;
+      case 'Reduce':
+        return Icons.arrow_downward_rounded;
+      default:
+        return Icons.circle_outlined;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final sz = AppSizes(context);
     final color = AppTheme.recommendationColor(recommendation);
-    final fontSize = large ? sz.sp(13) : sz.sp(11);
-    final padding = large
-        ? EdgeInsets.symmetric(horizontal: sz.s(13), vertical: sz.s(7))
-        : EdgeInsets.symmetric(horizontal: sz.s(10), vertical: sz.s(5));
+    final isDark = recommendation == 'Increase';
+    final fontSize = large ? sz.sp(13) : sz.sp(11.5);
+    final vPad = large ? sz.s(8) : sz.s(5);
+    final hPad = large ? sz.s(14) : sz.s(10);
 
     return Container(
-      padding: padding,
+      padding: EdgeInsets.symmetric(horizontal: hPad, vertical: vPad),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.15),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: color.withOpacity(0.4), width: 1),
-      ),
-      child: Text(
-        _label,
-        style: TextStyle(
-          color: color,
-          fontSize: fontSize,
-          fontWeight: FontWeight.w600,
-          letterSpacing: 0.3,
+        color: isDark ? color : color.withOpacity(0.10),
+        borderRadius: BorderRadius.circular(100),
+        border: Border.all(
+          color: isDark ? color : color.withOpacity(0.30),
+          width: 1,
         ),
+        boxShadow: isDark
+            ? [
+                BoxShadow(
+                  color: color.withOpacity(0.30),
+                  blurRadius: 10,
+                  offset: const Offset(0, 3),
+                ),
+              ]
+            : null,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            _icon,
+            size: fontSize * 1.1,
+            color: isDark ? Colors.white : color,
+          ),
+          SizedBox(width: sz.s(4)),
+          Text(
+            _label,
+            style: TextStyle(
+              color: isDark ? Colors.white : color,
+              fontSize: fontSize,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 0.2,
+            ),
+          ),
+        ],
       ),
     );
   }

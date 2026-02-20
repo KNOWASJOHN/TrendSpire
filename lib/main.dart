@@ -11,13 +11,13 @@ void main() {
   // Force portrait orientation only (cleaner for demo)
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  // Make status bar and nav bar transparent to match dark theme
+  // Status bar with dark icons (light background)
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.light,
-      systemNavigationBarColor: Color(0xFF08080F),
-      systemNavigationBarIconBrightness: Brightness.light,
+      statusBarIconBrightness: Brightness.dark, // dark icons on light bg
+      systemNavigationBarColor: Color(0xFFF2F2F7),
+      systemNavigationBarIconBrightness: Brightness.dark,
     ),
   );
 
@@ -31,7 +31,7 @@ class TrendWiseApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'TrendWise',
-      debugShowCheckedModeBanner: false, // Remove the debug banner
+      debugShowCheckedModeBanner: false,
       theme: AppTheme.theme,
       home: const DashboardScreen(),
     );
